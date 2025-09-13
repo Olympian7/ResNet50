@@ -12,8 +12,7 @@ const AppHeader = () => {
   };
 
   return (
-    <header className="container relative flex items-center justify-between py-6">
-      <div className="w-10" />
+    <header className="container relative flex items-center justify-center py-6">
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         <div className="inline-flex items-center gap-3">
           <Leaf className="h-10 w-10 text-primary" />
@@ -25,8 +24,8 @@ const AppHeader = () => {
           {t('appDescription')}
         </p>
       </div>
-      <div className="w-10">
-        <Button variant="outline" size="icon" onClick={toggleLanguage} className="absolute top-6 right-4">
+      <div className="absolute top-6 right-4">
+        <Button variant="outline" size="icon" onClick={toggleLanguage}>
           <Languages className="h-4 w-4" />
           <span className="sr-only">Change language</span>
         </Button>
