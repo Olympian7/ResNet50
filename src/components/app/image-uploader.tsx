@@ -4,6 +4,7 @@ import { useState, useRef, type DragEvent } from 'react';
 import { UploadCloud } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/use-language';
 
 interface ImageUploaderProps {
   onImageSubmit: (photoDataUri: string) => void;
@@ -14,6 +15,7 @@ const ImageUploader = ({ onImageSubmit, isLoading }: ImageUploaderProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleFile = (file: File) => {
     if (!file) return;
@@ -89,9 +91,9 @@ const ImageUploader = ({ onImageSubmit, isLoading }: ImageUploaderProps) => {
       />
       <div className="flex flex-col items-center gap-4">
         <UploadCloud className="h-16 w-16 text-primary" />
-        <h2 className="font-headline text-2xl font-semibold">Upload Your Crop Image</h2>
+        <h2 className="font-headline text-2xl font-semibold">{t('imageUploaderTitle')}</h2>
         <p className="text-muted-foreground">
-          Drag and drop an image here, or click to select a file.
+          {t('imageUploaderSubtitle')}
         </p>
       </div>
     </div>

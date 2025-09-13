@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { HeartPulse, Leaf, ShieldCheck, Sprout, Syringe, Bug, CircleDollarSign, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
 
 interface AnalysisResultProps {
   result: AnalyzeCropImageOutput;
@@ -14,26 +15,22 @@ interface AnalysisResultProps {
   onReset: () => void;
 }
 
-// Helper function to render text with list formatting
 const renderList = (text: string) => {
-  if (!text || typeof text !== 'string') {
-    return <p>{text}</p>;
-  }
-  const items = text.split(/\n-|\* /).filter(item => item.trim() !== '');
-  if (items.length <= 1 && !text.startsWith('- ') && !text.startsWith('* ')) {
+  const items = text.split('\n').filter(item => item.trim().startsWith('- ') || item.trim().startsWith('* '));
+  if (items.length === 0) {
     return <p>{text}</p>;
   }
   return (
     <ul className="list-disc list-inside space-y-1">
       {items.map((item, index) => (
-        <li key={index}>{item.trim().replace(/^-/, '').trim()}</li>
+        <li key={index}>{item.replace(/^- |^\* /, '').trim()}</li>
       ))}
     </ul>
   );
 };
 
-
 const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) => {
+  const { t } = useLanguage();
   const { plantIdentification, diseaseDiagnosis, cropHealthAssessment } = result;
 
   const confidencePercent = diseaseDiagnosis ? Math.round(diseaseDiagnosis.confidence * 100) : 0;
@@ -42,62 +39,62 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
   return (
     <Card className="w-full max-w-4xl animate-in fade-in-50 slide-in-from-bottom-10 duration-500">
       <CardHeader>
-        <CardTitle className="font-headline text-3xl tracking-wide">Analysis Complete</CardTitle>
+        <CardTitle className="font-headline text-3xl tracking-wide">{t('analysisComplete')}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-8 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <div className="relative aspect-video w-full overflow-hidden rounded-lg border shadow-inner">
-            <Image src={imagePreview} alt="Uploaded crop" layout="fill" objectFit="cover" />
+            <Image src={imagePreview} alt="Uploaded crop" fill objectFit="cover" />
           </div>
           <div className="space-y-2 rounded-lg bg-secondary/50 p-4">
             <h3 className="flex items-center gap-2 font-headline text-xl text-foreground">
               <Sprout className="h-5 w-5 text-primary" />
-              Plant Identification
+              {t('plantIdentification')}
             </h3>
-            <p><strong className="font-medium">Common Name:</strong> {plantIdentification.commonName}</p>
-            <p><strong className="font-medium">Latin Name:</strong> <em className="text-muted-foreground">{plantIdentification.latinName}</em></p>
+            <p><strong className="font-medium">{t('commonName')}:</strong> {plantIdentification.commonName}</p>
+            <p><strong className="font-medium">{t('latinName')}:</strong> <em className="text-muted-foreground">{plantIdentification.latinName}</em></p>
           </div>
         </div>
         <div className="flex flex-col space-y-4">
           {diseaseDiagnosis && (
-            <div className="space-y-4 rounded-lg border bg-destructive text-destructive-foreground p-4">
+            <div className="space-y-4 rounded-lg border bg-destructive/10 border-destructive p-4">
               <div className="flex items-center justify-between">
-                <h3 className="flex items-center gap-2 font-headline text-xl">
+                <h3 className="flex items-center gap-2 font-headline text-xl text-destructive">
                   <Bug className="h-5 w-5" />
-                  Disease Diagnosis
+                  {t('diseaseDiagnosis')}
                 </h3>
-                <Badge variant="destructive" className="border-destructive-foreground/50 bg-destructive-foreground/10 text-destructive-foreground">Problem Detected</Badge>
+                <Badge variant="destructive">{t('problemDetected')}</Badge>
               </div>
-              <Separator className="bg-destructive-foreground/20" />
-              <p className="text-lg font-semibold">{diseaseDiagnosis.diseaseName}</p>
+              <Separator className="bg-destructive/20" />
+              <p className="text-lg font-semibold text-destructive">{diseaseDiagnosis.diseaseName}</p>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-destructive-foreground/80">Confidence</p>
+                <p className="text-sm font-medium text-destructive/80">{t('confidence')}</p>
                 <div className="flex items-center gap-2">
-                  <Progress value={confidencePercent} className="h-2 w-full bg-destructive-foreground/20 [&>div]:bg-destructive-foreground" />
-                  <span className="font-mono text-sm font-medium">{confidencePercent}%</span>
+                  <Progress value={confidencePercent} className="h-2 w-full bg-destructive/20 [&>div]:bg-destructive" />
+                  <span className="font-mono text-sm font-medium text-destructive">{confidencePercent}%</span>
                 </div>
               </div>
               
               <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="fixes" className="border-b-destructive-foreground/20">
-                  <AccordionTrigger className="text-base hover:no-underline">
+                <AccordionItem value="fixes" className="border-b-destructive/20">
+                  <AccordionTrigger className="text-base hover:no-underline text-destructive">
                     <div className="flex items-center gap-2">
                       <Syringe className="h-4 w-4" />
-                      Recommended Treatment
+                      {t('recommendedTreatment')}
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="prose prose-sm max-w-none text-destructive-foreground/90">
+                  <AccordionContent className="prose prose-sm max-w-none text-destructive/90">
                     {renderList(diseaseDiagnosis.fixes)}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="prevention" className="border-b-0">
-                  <AccordionTrigger className="text-base hover:no-underline">
+                  <AccordionTrigger className="text-base hover:no-underline text-destructive">
                      <div className="flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4" />
-                      Prevention Tips
+                      {t('preventionTips')}
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="prose prose-sm max-w-none text-destructive-foreground/90">
+                  <AccordionContent className="prose prose-sm max-w-none text-destructive/90">
                     {renderList(diseaseDiagnosis.prevention)}
                   </AccordionContent>
                 </AccordionItem>
@@ -109,22 +106,22 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
               <div className="flex items-center justify-between">
                  <h3 className="flex items-center gap-2 font-headline text-xl text-primary">
                     <HeartPulse className="h-5 w-5" />
-                    Health Assessment
+                    {t('healthAssessment')}
                 </h3>
-                <Badge variant="secondary" className="border-primary/50 bg-primary/10 text-primary">Healthy</Badge>
+                <Badge variant="secondary" className="border-primary/50 bg-primary/10 text-primary">{t('healthy')}</Badge>
               </div>
               <Separator />
               <p className="text-base">{cropHealthAssessment.healthDescription}</p>
               <div className="space-y-2 pt-2">
                 <h4 className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                     <CircleDollarSign className="h-4 w-4"/>
-                    Predicted Market Value
+                    {t('predictedMarketValue')}
                 </h4>
                 <div className="flex items-center gap-3">
                    <Progress value={marketValue} className="h-3" />
                    <span className="font-mono text-lg font-bold text-primary">{marketValue}%</span>
                 </div>
-                <p className="text-xs text-muted-foreground">Compared to standard market price.</p>
+                <p className="text-xs text-muted-foreground">{t('marketValueComparison')}</p>
               </div>
             </div>
           )}
@@ -132,7 +129,7 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
       </CardContent>
       <CardFooter className="justify-end border-t bg-secondary/30 px-6 py-4">
         <Button onClick={onReset}>
-          Analyze Another Crop
+          {t('analyzeAnotherCrop')}
           <ArrowRight className="ml-2 h-4 w-4"/>
         </Button>
       </CardFooter>

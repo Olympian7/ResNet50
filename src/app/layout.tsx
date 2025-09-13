@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import AppHeader from '@/components/app/header';
 import AppFooter from '@/components/app/footer';
+import { LanguageProvider } from '@/hooks/use-language';
 
 export const metadata: Metadata = {
   title: 'AgriAssist',
@@ -27,12 +28,14 @@ export default function RootLayout({
           'min-h-screen font-body antialiased bg-gradient-to-br from-background via-secondary to-background'
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <AppHeader />
-          <main className="flex-1">{children}</main>
-          <AppFooter />
-        </div>
-        <Toaster />
+        <LanguageProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <AppHeader />
+            <main className="flex-1">{children}</main>
+            <AppFooter />
+          </div>
+          <Toaster />
+        </LanguageProvider>
       </body>
     </html>
   );

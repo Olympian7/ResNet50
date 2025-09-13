@@ -8,6 +8,7 @@ import { handleImageAnalysis } from "@/lib/actions";
 import ImageUploader from "@/components/app/image-uploader";
 import AnalysisResult from "@/components/app/analysis-result";
 import LoadingView from "@/components/app/loading-view";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function Home() {
   const [analysisResult, setAnalysisResult] = useState<AnalyzeCropImageOutput | null>(null);
@@ -15,6 +16,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleImageSubmit = async (photoDataUri: string) => {
     setIsLoading(true);
