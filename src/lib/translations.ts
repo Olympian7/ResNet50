@@ -2,7 +2,7 @@ const translations = {
   en: {
     appName: 'AgriAssist',
     appDescription: 'Your AI-powered guide for healthier crops.',
-    imageUploaderTitle: 'Upload Your Crop Image',
+    imageUploaderTitle: 'Upload',
     imageUploaderSubtitle: 'Drag and drop an image here, or click to select a file.',
     analyzingMessage: 'Estimating Health Quality of Crop',
     analyzingSubMessage: 'Our AI is hard at work. This may take a moment.',
@@ -20,12 +20,13 @@ const translations = {
     predictedMarketValue: 'Predicted Market Value',
     marketValueComparison: 'Compared to standard market price.',
     analyzeAnotherCrop: 'Analyze Another Crop',
-    footerCopyright: 'KarshakMitra'
+    footerCopyright: 'KarshakMitra',
+    imageUploadInstruction: 'Kindly take a clear picture of the crop and upload'
   },
   ml: {
     appName: 'അഗ്രിഅസിസ്റ്റ്',
     appDescription: 'ആരോഗ്യമുള്ള വിളകൾക്കായി നിങ്ങളുടെ AI-പവർ ഗൈഡ്.',
-    imageUploaderTitle: 'നിങ്ങളുടെ വിളയുടെ ചിത്രം അപ്‌ലോഡ് ചെയ്യുക',
+    imageUploaderTitle: 'അപ്‌ലോഡ് ചെയ്യുക',
     imageUploaderSubtitle: 'ഒരു ചിത്രം ഇവിടെ വലിച്ചിടുക, അല്ലെങ്കിൽ ഒരു ഫയൽ തിരഞ്ഞെടുക്കാൻ ക്ലിക്കുചെയ്യുക.',
     analyzingMessage: 'വിളയുടെ ആരോഗ്യനിലവാരം കണക്കാക്കുന്നു',
     analyzingSubMessage: 'ഞങ്ങളുടെ AI പ്രവർത്തിക്കുന്നു. ഇതിന് കുറച്ച് സമയമെടുത്തേക്കാം.',
@@ -43,7 +44,8 @@ const translations = {
     predictedMarketValue: 'പ്രതീക്ഷിക്കുന്ന വിപണി മൂല്യം',
     marketValueComparison: 'സാധാരണ വിപണി വിലയുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ.',
     analyzeAnotherCrop: 'മറ്റൊരു വിള വിശകലനം ചെയ്യുക',
-    footerCopyright: 'കർഷകമിത്ര'
+    footerCopyright: 'കർഷകമിത്ര',
+    imageUploadInstruction: 'ദയവായി വിളയുടെ വ്യക്തമായ ചിത്രമെടുത്ത് അപ്‌ലോഡ് ചെയ്യുക'
   },
 };
 

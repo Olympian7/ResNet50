@@ -61,7 +61,10 @@ export default function Home() {
             onReset={handleReset} 
           />
         ) : (
-          <ImageUploader onImageSubmit={handleImageSubmit} isLoading={isLoading} />
+          <div className="w-full max-w-2xl flex flex-col items-center">
+            <ImageUploader onImageSubmit={handleImageSubmit} isLoading={isLoading} />
+            <p className="mt-4 text-center text-muted-foreground">{t('imageUploadInstruction')}</p>
+          </div>
         )}
 
         {error && !isLoading && (
