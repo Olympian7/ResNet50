@@ -6,6 +6,3 @@ runConfig:
   # more instances in response to increased traffic.
   maxInstances: 1
 backend: {}
-env:
-  - variable: GCLOUD_PROJECT
-    value: studio-498700326-2afa2
