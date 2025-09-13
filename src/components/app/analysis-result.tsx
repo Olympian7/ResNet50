@@ -14,6 +14,25 @@ interface AnalysisResultProps {
   onReset: () => void;
 }
 
+// Helper function to render text with list formatting
+const renderList = (text: string) => {
+  if (typeof text !== 'string') {
+    return text;
+  }
+  const items = text.split(/-\s+/).filter(Boolean);
+  if (items.length <= 1) {
+    return <p>{text}</p>;
+  }
+  return (
+    <ul className="list-disc list-inside space-y-1">
+      {items.map((item, index) => (
+        <li key={index}>{item.trim()}</li>
+      ))}
+    </ul>
+  );
+};
+
+
 const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) => {
   const { plantIdentification, diseaseDiagnosis, cropHealthAssessment } = result;
 
@@ -68,7 +87,7 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="prose prose-sm max-w-none text-destructive-foreground/90">
-                    {diseaseDiagnosis.fixes}
+                    {renderList(diseaseDiagnosis.fixes)}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="prevention">
@@ -79,7 +98,7 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="prose prose-sm max-w-none text-destructive-foreground/90">
-                    {diseaseDiagnosis.prevention}
+                    {renderList(diseaseDiagnosis.prevention)}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
