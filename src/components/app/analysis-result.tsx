@@ -16,17 +16,17 @@ interface AnalysisResultProps {
 
 // Helper function to render text with list formatting
 const renderList = (text: string) => {
-  if (typeof text !== 'string') {
-    return text;
+  if (!text || typeof text !== 'string') {
+    return <p>{text}</p>;
   }
-  const items = text.split(/-\s+/).filter(Boolean);
-  if (items.length <= 1) {
+  const items = text.split(/\n-|\* /).filter(item => item.trim() !== '');
+  if (items.length <= 1 && !text.startsWith('- ') && !text.startsWith('* ')) {
     return <p>{text}</p>;
   }
   return (
     <ul className="list-disc list-inside space-y-1">
       {items.map((item, index) => (
-        <li key={index}>{item.trim()}</li>
+        <li key={index}>{item.trim().replace(/^-/, '').trim()}</li>
       ))}
     </ul>
   );
@@ -60,26 +60,26 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
         </div>
         <div className="flex flex-col space-y-4">
           {diseaseDiagnosis && (
-            <div className="space-y-4 rounded-lg border bg-card p-4">
+            <div className="space-y-4 rounded-lg border bg-destructive text-destructive-foreground p-4">
               <div className="flex items-center justify-between">
-                <h3 className="flex items-center gap-2 font-headline text-xl text-destructive-foreground">
+                <h3 className="flex items-center gap-2 font-headline text-xl">
                   <Bug className="h-5 w-5" />
                   Disease Diagnosis
                 </h3>
-                <Badge variant="destructive">Problem Detected</Badge>
+                <Badge variant="destructive" className="border-destructive-foreground/50 bg-destructive-foreground/10 text-destructive-foreground">Problem Detected</Badge>
               </div>
-              <Separator />
-              <p className="text-lg font-semibold text-destructive-foreground">{diseaseDiagnosis.diseaseName}</p>
+              <Separator className="bg-destructive-foreground/20" />
+              <p className="text-lg font-semibold">{diseaseDiagnosis.diseaseName}</p>
               <div className="space-y-1">
                 <p className="text-sm font-medium text-destructive-foreground/80">Confidence</p>
                 <div className="flex items-center gap-2">
                   <Progress value={confidencePercent} className="h-2 w-full bg-destructive-foreground/20 [&>div]:bg-destructive-foreground" />
-                  <span className="font-mono text-sm font-medium text-destructive-foreground">{confidencePercent}%</span>
+                  <span className="font-mono text-sm font-medium">{confidencePercent}%</span>
                 </div>
               </div>
               
               <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="fixes">
+                <AccordionItem value="fixes" className="border-b-destructive-foreground/20">
                   <AccordionTrigger className="text-base hover:no-underline">
                     <div className="flex items-center gap-2">
                       <Syringe className="h-4 w-4" />
@@ -90,7 +90,7 @@ const AnalysisResult = ({ result, imagePreview, onReset }: AnalysisResultProps) 
                     {renderList(diseaseDiagnosis.fixes)}
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="prevention">
+                <AccordionItem value="prevention" className="border-b-0">
                   <AccordionTrigger className="text-base hover:no-underline">
                      <div className="flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4" />
